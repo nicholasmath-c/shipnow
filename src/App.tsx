@@ -38,7 +38,7 @@ const Layout = () => {
   const { title } = useHeader();
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full bg-muted">
       {/* Sidebar - versão desktop */}
       {!isLoginPage && (
         <div className="fixed inset-y-0 z-20 hidden h-full w-[var(--sidebar-width)] shrink-0 bg-background md:block">
@@ -55,7 +55,7 @@ const Layout = () => {
             "group-data-[collapsible=icon]/sidebar-wrapper:md:pl-[var(--sidebar-width-icon)]"
         )}
       >
-        <SidebarInset>
+        <SidebarInset className="bg-muted">
           {!isLoginPage && (
             <Header>
               <SidebarTrigger className="md:hidden" />

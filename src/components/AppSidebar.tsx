@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 
-import { Ticket, Home, User, Inbox, Plus } from "lucide-react";
+import { Ticket, Home, User, Inbox, Plus, Box } from "lucide-react";
 
-import logo from "../assets/img/logo-shipnow-dark.png";
+import logo from "../assets/img/logo-shipnow.png";
 
 import {
   Tooltip,
@@ -35,25 +35,9 @@ const principal = [
     icon: Home,
   },
   {
-    title: "Chamados",
-    url: "/tickets",
-    icon: Ticket,
-  },
-];
-
-const tech = [
-  {
-    title: "Meus Atendimentos",
-    url: "/tech/my-tickets",
-    icon: Inbox,
-  },
-];
-
-const admin = [
-  {
-    title: "Usuários",
-    url: "/admin/users",
-    icon: User,
+    title: "Inventário",
+    url: "/inventory",
+    icon: Box,
   },
 ];
 
@@ -63,15 +47,15 @@ export function AppSidebar() {
 
   if (user) {
     return (
-      <Sidebar variant="sidebar" className="static">
-        <SidebarHeader className=" w-full">
+      <Sidebar variant="sidebar" className="static text-white">
+        <SidebarHeader className="bg-secondary w-full py-4">
           <div className="flex flex-col items-center gap-3">
             <a href="/">
               <img src={logo} alt="" width={160} className="p-2" />
             </a>
           </div>
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="bg-secondary w-full">
           <SidebarGroup>
             <SidebarGroupLabel>Principal</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -139,77 +123,8 @@ export function AppSidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          {user.role !== "user" && (
-            <SidebarGroup>
-              <SidebarGroupLabel>Técnico</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {tech.map((item) => {
-                    if (location.pathname == item.url) {
-                      return (
-                        <SidebarMenuItem key={item.title}>
-                          <SidebarMenuButton asChild isActive>
-                            <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      );
-                    } else {
-                      return (
-                        <SidebarMenuItem key={item.title}>
-                          <SidebarMenuButton asChild>
-                            <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      );
-                    }
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          )}
-
-          {user.role === "admin" && (
-            <SidebarGroup>
-              <SidebarGroupLabel>Admin</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {admin.map((item) => {
-                    if (location.pathname == item.url) {
-                      return (
-                        <SidebarMenuItem key={item.title}>
-                          <SidebarMenuButton asChild isActive>
-                            <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      );
-                    } else {
-                      return (
-                        <SidebarMenuItem key={item.title}>
-                          <SidebarMenuButton asChild>
-                            <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      );
-                    }
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          )}
         </SidebarContent>
-        <SidebarFooter>
+        <SidebarFooter className="bg-secondary w-full">
           <NavUser user={user} />
         </SidebarFooter>
       </Sidebar>

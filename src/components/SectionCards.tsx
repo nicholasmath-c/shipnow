@@ -1,50 +1,47 @@
 import {
   Card,
   CardDescription,
-  CardHeader,
   CardTitle,
+  CardContent,
 } from "@/components/ui/card";
-import { iTicket } from "@/data/@types/ticket";
+import { Badge } from "./ui/badge";
+import { Banknote, Package, ShoppingBag, Truck } from "lucide-react";
+import CardHomeDashboard from "./CardHomeDashboard";
 
-interface SectionCardsProps {
-  tickets?: iTicket[] | null;
-}
 
-export default function SectionCards({ tickets }: SectionCardsProps) {
-  const counts = {
-    aberto: tickets?.filter(t => t.situacao === 'aberto').length || 0,
-    emAndamento: tickets?.filter(t => t.situacao === 'em_andamento').length || 0,
-    finalizado: tickets?.filter(t => t.situacao === 'finalizado').length || 0
-  }
-
+export default function SectionCards() {
   return (
-    <div>
-      <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-3 grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card items-center text-center">
-        <Card className="@container/card">
-          <CardHeader className="relative">
-            <CardDescription>Abertos</CardDescription>
-            <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-              {counts.aberto}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card className="@container/card">
-          <CardHeader className="relative">
-            <CardDescription>Em Andamento</CardDescription>
-            <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-              {counts.emAndamento}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card className="@container/card">
-          <CardHeader className="relative">
-            <CardDescription>Finalizados</CardDescription>
-            <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-              {counts.finalizado}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-      </div>
+    <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @6xl/main:grid-cols-4 grid grid-cols-1 gap-8 *:data-[slot=card]:bg-white *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card">
+      <CardHomeDashboard
+        title="1.250,00€"
+        description="Vendas nos últimos 30 dias"
+        percentage="+12.5%"
+        isPercentage="up"
+      >
+        <Banknote />
+      </CardHomeDashboard>
+      <CardHomeDashboard
+        title="1.234"
+        description="Total de pedidos"
+        percentage="-20%"
+        isPercentage="down"
+      >
+        <ShoppingBag />
+      </CardHomeDashboard>
+      <CardHomeDashboard
+        title="137"
+        description="Produtos no inventário"
+        isPercentage="none"
+      >
+        <Package />
+      </CardHomeDashboard>
+      <CardHomeDashboard
+        title="100,00€"
+        description="Soma do frete mensal"
+        isPercentage="none"
+      >
+        <Truck />
+      </CardHomeDashboard>
     </div>
   );
 }

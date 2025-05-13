@@ -72,8 +72,8 @@ export default function LoginForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col space-y-7"
       >
-        <div className="flex flex-col gap-4 text-start mb-10">
-          <h1 className="text-4xl font-semibold text-secondary font-heading">Seja bem vindo de volta</h1>
+        <div className="flex flex-col gap-6 text-start mb-10">
+          <h1 className="text-4xl font-semibold text-secondary font-heading">Seja bem vindo</h1>
           <p className="text-sm">
             Inicie sessão na sua conta através do seu nome de utilizador.
           </p>
