@@ -43,12 +43,7 @@ export default function LoginForm() {
     const response = await login(values.username, values.password);
     if (response.status === 200) {
       setToken(response.data.user.accessToken);
-      setUser({
-        id: response.data.user.id,
-        name: response.data.user.name,
-        login: response.data.user.login,
-        role: response.data.user.role,
-      });
+      setUser(response.data.user);
       navigate("/");
     } else if (response.status === 400) {
       form.setError("username", {

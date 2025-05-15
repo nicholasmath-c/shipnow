@@ -25,15 +25,13 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/data/contexts/AuthContext";
 import { logout } from "@/data/services/authService.ts";
+import { User as iUser } from "@/data/@types/user";
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    login: string;
-    name: string;
-  };
-}) {
+type NavUserProps = {
+  user: iUser;
+};
+
+export function NavUser({ user }: NavUserProps) {
   const navigate = useNavigate();
   const { setToken, setUser } = useAuth();
 
@@ -64,13 +62,15 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <User />
+              <Avatar className="h-8 w-8 rounded-lg grayscale flex items-center">
+                <User className="text-sidebar-primary" />
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {user.login}
+                <span className="truncate font-medium text-sidebar-primary">
+                  {user.name}
+                </span>
+                <span className="truncate text-xs text-sidebar-primary-foreground">
+                  {user.username}
                 </span>
               </div>
               <MoreVerticalIcon className="ml-auto size-4" />

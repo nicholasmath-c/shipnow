@@ -1,4 +1,3 @@
-@import url();
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 
 @font-face {
@@ -14,7 +13,7 @@
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.967 0.001 286.375);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
@@ -45,6 +44,11 @@
   --sidebar-accent-foreground: white;
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.723 0.219 149.579);
+  --chart-1: 139 65% 20%;
+  --chart-2: 141, 57%, 58%;
+  --chart-3: 142 88% 28%;
+  --chart-4: 137 55% 15%;
+  --chart-5: 141 40% 9%;
   font-family: 'Geist', sans-serif;
 }
 
@@ -80,6 +84,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.527 0.154 150.069);
+  --chart-1: 142 88% 28%;
+  --chart-2: 139 65% 20%;
+  --chart-3: 140 74% 24%;
+  --chart-4: 137 55% 15%;
+  --chart-5: 141 40% 9%;
   font-family: 'Geist', sans-serif;
 }
 

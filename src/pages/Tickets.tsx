@@ -12,7 +12,7 @@ export default function Tickets() {
   }, [setTitle]);
 
   return (
-    <ProtectedRoute allowedRoles={["user", "tech", "admin"]}>
+    <ProtectedRoute>
       <DashboardContentLayout>
           <TicketsDataTable />
       </DashboardContentLayout>

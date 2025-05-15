@@ -48,14 +48,14 @@ export function AppSidebar() {
   if (user) {
     return (
       <Sidebar variant="sidebar" className="static text-white">
-        <SidebarHeader className="bg-secondary w-full py-4">
+        <SidebarHeader className="w-full py-4">
           <div className="flex flex-col items-center gap-3">
             <a href="/">
               <img src={logo} alt="" width={160} className="p-2" />
             </a>
           </div>
         </SidebarHeader>
-        <SidebarContent className="bg-secondary w-full">
+        <SidebarContent className="w-full ">
           <SidebarGroup>
             <SidebarGroupLabel>Principal</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -124,7 +124,7 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className="bg-secondary w-full">
+        <SidebarFooter className="w-full">
           <NavUser user={user} />
         </SidebarFooter>
       </Sidebar>

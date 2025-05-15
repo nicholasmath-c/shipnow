@@ -45,7 +45,7 @@ export default function Account() {
   }
 
   return (
-    <ProtectedRoute allowedRoles={["user", "tech", "admin"]}>
+    <ProtectedRoute>
       <DashboardContentLayout>
         <div className="flex flex-col items-center gap-16">
           <CardUser user={allUserInfo} />

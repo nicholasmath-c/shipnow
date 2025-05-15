@@ -9,13 +9,7 @@ import {
 import { api } from "@/api.ts";
 import SPLoader from "@/components/SpinnerLoader";
 import { useLoading } from "./LoadingContext";
-
-interface User {
-  id: number;
-  name: string;
-  login: string;
-  role: string;
-}
+import { User } from "../@types/user";
 
 type AuthContextType = {
   token?: string | null;

@@ -7,7 +7,7 @@ import {
 import { Badge } from "./ui/badge";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 
-interface CardHomeDashboardProps {
+interface CardDashboardProps {
   title: string;
   description: string;
   percentage?: string;
@@ -15,26 +15,26 @@ interface CardHomeDashboardProps {
   children: React.ReactNode;
 }
 
-export default function CardHomeDashboard({
+export default function CardDashboard({
   title,
   description,
   percentage,
   isPercentage,
   children,
-}: CardHomeDashboardProps) {
+}: CardDashboardProps) {
   return (
     <Card className="@container/card">
-      <CardContent className="relative flex gap-4 items-center justify-between">
+      <CardContent className="flex items-center justify-between">
         <div>
           <CardDescription className="mb-2">{description}</CardDescription>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col @[350px]/card:flex-row @[350px]/card:items-center @[350px]/card:gap-4 gap-2">
             <CardTitle className="text-2xl font-semibold tabular-nums flex gap-4">
               {title}
             </CardTitle>
             {isPercentage !== "none" && (
               <Badge
                 variant="outline"
-                className="flex gap-1 rounded-lg text-[11px]"
+                className="gap-1 rounded-lg text-[11px]"
               >
                 {isPercentage === "up" ? (
                   <TrendingUpIcon className="size-3" />
@@ -46,7 +46,7 @@ export default function CardHomeDashboard({
             )}
           </div>
         </div>
-        <div className="bg-muted p-3 h-fit rounded-xl size-12 text-primary">
+        <div className="bg-muted ml-4 p-3 h-fit rounded-xl size-12 text-primary">
           {children}
         </div>
       </CardContent>

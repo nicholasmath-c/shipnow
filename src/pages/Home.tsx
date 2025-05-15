@@ -14,6 +14,8 @@ import TicketCard from "@/components/TicketCard.tsx";
 import { toast } from "sonner";
 import SPLoader from "@/components/SpinnerLoader.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { SalesChart } from "@/components/charts/SalesChart.tsx";
+import { OrdersChart } from "@/components/charts/OrdersChart.tsx";
 
 export default function Home() {
   const { setTitle } = useHeader();
@@ -33,13 +35,15 @@ export default function Home() {
   }
 
   return (
-    <ProtectedRoute allowedRoles={["user", "tech", "admin"]}>
+    <ProtectedRoute>
       <DashboardContentLayout>
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards />
-            </div>
+        <SectionCards />
+        <div className="flex md:flex-row flex-col w-full gap-4 md:gap-8 align-stretch [container-type:inline-size]">
+          <div className="w-full">
+            <SalesChart />
+          </div>
+          <div className="w-full">
+            <OrdersChart />
           </div>
         </div>
       </DashboardContentLayout>
