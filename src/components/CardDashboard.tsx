@@ -8,8 +8,8 @@ import { Badge } from "./ui/badge";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 
 interface CardDashboardProps {
-  title: string;
-  description: string;
+  title?: number | string;
+  description: string | React.ReactNode;
   percentage?: string;
   isPercentage: string; //up - down - none
   children: React.ReactNode;

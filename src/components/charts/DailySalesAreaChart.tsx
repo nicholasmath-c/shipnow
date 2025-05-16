@@ -27,6 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useEffect, useState } from "react";
 import { getCompanyDailySales } from "@/data/services/companyService.ts";
 import { useAuth } from "@/data/contexts/AuthContext.tsx";
+import { SPLoaderInCard } from "../SpinnerLoader.tsx";
 
 const chartConfig = {
   total_value: {
@@ -35,11 +36,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function SalesChart() {
+export function DailySalesAreaChart() {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = useState("30d");
   const [chartData, setChartData] = useState([]);
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (isMobile) {
@@ -51,6 +53,7 @@ export function SalesChart() {
     const response = async () => {
       if (user) {
         setChartData(await getCompanyDailySales(user.company_id));
+        setIsLoading(false);
       }
     };
 
@@ -72,12 +75,12 @@ export function SalesChart() {
   });
 
   return (
-    <Card className="@container/card h-full">
+    <Card className="@container/card h-[450px]">
       <CardHeader className="relative">
         <CardTitle>Vendas</CardTitle>
         <CardDescription>
           <span className="@[540px]/card:block hidden">
-            Total de vendas nos últimos 3 meses
+            Total de vendas por dia nos últimos 3 meses
           </span>
           <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
@@ -125,58 +128,74 @@ export function SalesChart() {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
-            <defs>
-              <linearGradient id="fillTotalValue" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-total_value)"
-                  stopOpacity={0.9}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-total_value)"
-                  stopOpacity={0.3}
-                />
-              </linearGradient>
-            </defs>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("pt-BR", {
-                  month: "short",
-                  day: "numeric",
-                });
-              }}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("pt-BR", {
-                      month: "short",
-                      day: "numeric",
-                    });
-                  }}
-                  indicator="line"
-                />
-              }
-            />
-            <Area
-              dataKey="total_value"
-              type="natural"
-              fill="url(#fillTotalValue)"
-              stroke="var(--color-total_value)"
-              stackId="a"
-            />
-          </AreaChart>
+          {!isLoading ? (
+            <AreaChart data={filteredData}>
+              <defs>
+                <linearGradient id="fillTotalValue" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-total_value)"
+                    stopOpacity={0.9}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--color-total_value)"
+                    stopOpacity={0.3}
+                  />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("pt-BR", {
+                    month: "short",
+                    day: "numeric",
+                  });
+                }}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString("pt-BR", {
+                        month: "short",
+                        day: "numeric",
+                      });
+                    }}
+                    indicator="line"
+                    formatter={(value, name) => (
+                      <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
+                        {chartConfig[name as keyof typeof chartConfig]?.label ||
+                          name}
+                        <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                          {value}
+                          <span className="font-normal text-muted-foreground">
+                            €
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  />
+                }
+              />
+              <Area
+                dataKey="total_value"
+                type="natural"
+                fill="url(#fillTotalValue)"
+                stroke="var(--color-total_value)"
+                stackId="a"
+              />
+            </AreaChart>
+          ) : (
+            <SPLoaderInCard />
+          )}
         </ChartContainer>
       </CardContent>
     </Card>

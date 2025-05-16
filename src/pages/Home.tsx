@@ -14,8 +14,8 @@ import TicketCard from "@/components/TicketCard.tsx";
 import { toast } from "sonner";
 import SPLoader from "@/components/SpinnerLoader.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { SalesChart } from "@/components/charts/SalesChart.tsx";
-import { OrdersChart } from "@/components/charts/OrdersChart.tsx";
+import { DailySalesAreaChart } from "@/components/charts/DailySalesAreaChart.tsx";
+import { OrdersCountByStatusPieChart } from "@/components/charts/OrdersCountByStatusPieChart.tsx";
 
 export default function Home() {
   const { setTitle } = useHeader();
@@ -38,12 +38,12 @@ export default function Home() {
     <ProtectedRoute>
       <DashboardContentLayout>
         <SectionCards />
-        <div className="flex md:flex-row flex-col w-full gap-4 md:gap-8 align-stretch [container-type:inline-size]">
+        <div className="flex lg:flex-row flex-col w-full gap-4 md:gap-8 align-stretch [container-type:inline-size]">
           <div className="w-full">
-            <SalesChart />
+            <DailySalesAreaChart />
           </div>
           <div className="w-full">
-            <OrdersChart />
+            <OrdersCountByStatusPieChart />
           </div>
         </div>
       </DashboardContentLayout>

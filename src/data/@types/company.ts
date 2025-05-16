@@ -16,3 +16,19 @@ export interface iCompany {
   created_at?: Date | null;
   updated_at?: Date | null;
 }
+
+export interface iCompanyCurrentMonthSales {
+  current_month_sales: number,
+  previous_month_sales: number,
+  percentage_change: number
+}
+
+export interface iCompanyCurrentMonthDeliveredOrders {
+  current_month_deliveries: number,
+  previous_month_deliveries: number,
+  percentage_change: number
+}
+
+export interface iCompanyCurrentMonthShippingValue {
+  total_shipping_value: number,
+}

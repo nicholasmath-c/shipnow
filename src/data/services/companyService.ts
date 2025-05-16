@@ -88,3 +88,47 @@ export async function getCompanyDailySales(id: number) {
       return error.response;
     });
 }
+
+export async function getCompanyOrderCountByStatus(id: number) {
+  return api
+    .get(`/companies/${id}/orders/status-summary`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}
+
+export async function getCompanyCurrentMonthSales(id: number) {
+  return api
+    .get(`/companies/${id}/current-month-sales`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}
+
+export async function getCompanyCurrentMonthDeliveredOrders(id: number) {
+  return api
+    .get(`/companies/${id}/orders/current-month-delivery`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}
+
+export async function getCompanyCurrentMonthShippingValue(id: number) {
+  return api
+    .get(`/companies/${id}/current-month-shipping-value`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}

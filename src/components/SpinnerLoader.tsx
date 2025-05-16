@@ -3,3 +3,11 @@ export default function SPLoader() {
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
   );
 }
+
+export function SPLoaderInCard() {
+  return (
+    <div className="flex flex-col items-center mt-24">
+      <SPLoader />
+    </div>
+  );
+}

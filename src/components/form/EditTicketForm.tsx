@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import {
   Wrench,
   MapPin,
@@ -60,6 +59,7 @@ import { createImageURLByAttachment } from "@/data/hooks/helpers.ts";
 import SPLoader from "../SpinnerLoader.tsx";
 import { iUser } from "@/data/@types/user.ts";
 import { listAllUsers } from "@/data/services/userService.ts";
+
 
 const formSchema = z.object({
   unidade: z.number({ required_error: "Selecione a unidade." }),
@@ -151,7 +151,8 @@ export default function EditTicketForm({ ticket }: EditTicketFormProps) {
       tecnico: ticket.id_tecnico,
       descricao: ticket?.descricao,
       situacao: ticket.situacao,
-      nivel_urgencia: ticket.nivel_urgencia === null ? "definir" : ticket.nivel_urgencia,
+      nivel_urgencia:
+        ticket.nivel_urgencia === null ? "definir" : ticket.nivel_urgencia,
     },
   });
 
