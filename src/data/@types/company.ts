@@ -32,3 +32,7 @@ export interface iCompanyCurrentMonthDeliveredOrders {
 export interface iCompanyCurrentMonthShippingValue {
   total_shipping_value: number,
 }
+
+export interface iCompanyStockQuantity {
+  total_stock_quantity: number,
+}

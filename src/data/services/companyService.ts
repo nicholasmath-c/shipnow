@@ -132,3 +132,14 @@ export async function getCompanyCurrentMonthShippingValue(id: number) {
       return error.response;
     });
 }
+
+export async function getCompanyStockQuantity(id: number) {
+  return api
+    .get(`/companies/${id}/stock-quantity`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}

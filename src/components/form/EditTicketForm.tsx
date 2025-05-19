@@ -55,7 +55,7 @@ import {
 } from "@/data/services/attachmentService.ts";
 import { iTicket } from "@/data/@types/ticket.ts";
 import { iAttachment } from "@/data/@types/attachment.ts";
-import { createImageURLByAttachment } from "@/data/hooks/helpers.ts";
+import { createImageURLByAttachment } from "@/data/hooks/helpers";
 import SPLoader from "../SpinnerLoader.tsx";
 import { iUser } from "@/data/@types/user.ts";
 import { listAllUsers } from "@/data/services/userService.ts";

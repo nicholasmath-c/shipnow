@@ -15,7 +15,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useHeader } from "./data/contexts/HeaderContext.tsx";
 import { HeaderProvider } from "./data/contexts/HeaderContext.tsx";
-import { TicketProvider } from "./data/contexts/TicketsContext.tsx";
+import { OrdersProvider } from "./data/contexts/OrdersContext.tsx";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -24,12 +24,9 @@ import Users from "./pages/Admin/Users.tsx";
 import Error403 from "./pages/Error403.tsx";
 import CreateTicket from "./pages/CreateTicket.tsx";
 import { AuthProvider } from "./data/contexts/AuthContext.tsx";
-import { LoadingProvider } from "./data/contexts/LoadingContext.tsx";
 import EditTicket from "./pages/EditTicket.tsx";
 import MyTickets from "./pages/Tech/MyTickets.tsx";
 import Account from "./pages/Account.tsx";
-import { NotificationHandler } from "./components/NotificationHandler.tsx";
-import { useWebSocket } from "./data/hooks/useWebSocket.ts";
 
 const Layout = () => {
   const location = useLocation();
@@ -117,22 +114,17 @@ export function App() {
     },
   ]);
 
-  const { lastMessage } = useWebSocket();
-
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <LoadingProvider>
-        <AuthProvider>
-          <HeaderProvider>
-            <TicketProvider>
-              <SidebarProvider>
-                <RouterProvider router={router} />
-              </SidebarProvider>
-            </TicketProvider>
-          </HeaderProvider>
-        </AuthProvider>
-      </LoadingProvider>
-      <NotificationHandler message={lastMessage}></NotificationHandler>
+      <AuthProvider>
+        <HeaderProvider>
+          <OrdersProvider>
+            <SidebarProvider>
+              <RouterProvider router={router} />
+            </SidebarProvider>
+          </OrdersProvider>
+        </HeaderProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

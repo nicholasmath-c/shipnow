@@ -1,4 +1,4 @@
-import { useEffect, PropsWithChildren, useMemo } from "react";
+import { useEffect, PropsWithChildren, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/data/contexts/AuthContext";
 import { User } from "../data/@types/user.ts";
@@ -15,7 +15,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
   const { token, user } = useAuth();
 
-  // Memoize a verificação de permissão para evitar recálculos desnecessários
+  const [canRender, setCanRender] = useState(false);
+
   const hasPermission = useMemo(() => {
     if (!user) return false;
     if (!allowedRoles) return true;
@@ -23,14 +24,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }, [user, allowedRoles]);
 
   useEffect(() => {
-    // Se ainda está carregando o estado do usuário, não faz nada
-    if (user === undefined) return;
-
     const isLoginPage = location.pathname === "/login";
     const is403Page = location.pathname === "/403";
 
-    // Redirecionamentos prioritários
-    if (!token && !isLoginPage) {
+    // Se ainda não sabemos o estado do user, aguardamos
+    if (user === undefined) return;
+
+    if (!token && !user && !isLoginPage) {
       navigate("/login", { replace: true });
       return;
     }
@@ -40,12 +40,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return;
     }
 
-    // Verificação de permissões
     if (token && !hasPermission && !is403Page) {
       navigate("/403", { replace: true });
       return;
     }
+
+    // Só libera render se estiver tudo ok
+    setCanRender(true);
   }, [location.pathname, navigate, token, user, hasPermission]);
+
+  if (!canRender) {
+    return null; // ou um loader, se preferir
+  }
 
   return <>{children}</>;
 };

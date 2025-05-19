@@ -4,6 +4,12 @@ export default function SPLoader() {
   );
 }
 
+export function SPLoaderXS() {
+  return (
+    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
+  );
+}
+
 export function SPLoaderInCard() {
   return (
     <div className="flex flex-col items-center mt-24">

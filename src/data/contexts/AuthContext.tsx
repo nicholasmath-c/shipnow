@@ -8,7 +8,6 @@ import {
 } from "react";
 import { api } from "@/api.ts";
 import SPLoader from "@/components/SpinnerLoader";
-import { useLoading } from "./LoadingContext";
 import { User } from "../@types/user";
 
 type AuthContextType = {
@@ -30,7 +29,7 @@ type AuthProviderProps = PropsWithChildren;
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>();
   const [user, setUser] = useState<User | null>();
-  const { isLoading, setIsLoading } = useLoading();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,9 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     };
 
-    if (location.pathname !== "/login") {
       request();
-    }
   }, []);
 
   useLayoutEffect(() => {

@@ -12,41 +12,58 @@ import {
   iCompanyCurrentMonthDeliveredOrders,
   iCompanyCurrentMonthSales,
   iCompanyCurrentMonthShippingValue,
+  iCompanyStockQuantity,
 } from "@/data/@types/company";
 import {
   getCompanyCurrentMonthDeliveredOrders,
   getCompanyCurrentMonthSales,
   getCompanyCurrentMonthShippingValue,
+  getCompanyStockQuantity,
 } from "@/data/services/companyService";
-import { SPLoaderInCard } from "./SpinnerLoader";
+import { useOrders } from "@/data/contexts/OrdersContext";
 
 export default function SectionCards() {
+  const { orders } = useOrders();
   const { user } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
   const [currentMonthSales, setCurrentMonthSales] =
     useState<iCompanyCurrentMonthSales>();
   const [currentMonthDeliveries, setCurrentMonthDeliveries] =
     useState<iCompanyCurrentMonthDeliveredOrders>();
+  const [stockQuantity, setStockQuantity] = useState<iCompanyStockQuantity>();
   const [currentMonthShippingValue, setCurrentMonthShippingValue] =
     useState<iCompanyCurrentMonthShippingValue>();
+  const [isLoadingMonthSales, setIsLoadingMonthSales] = useState(true);
+  const [isLoadingMonthDeliveries, setIsLoadingMonthDeliveries] =
+    useState(true);
+  const [isLoadingStockQuantity, setIsLoadingStockQuantity] = useState(true);
+  const [isLoadingMonthShippingValue, setIsLoadingMonthShippingValue] =
+    useState(true);
 
   useEffect(() => {
     const request = async () => {
       if (user) {
-        const sales = await getCompanyCurrentMonthSales(user.id);
-        const deliveries = await getCompanyCurrentMonthDeliveredOrders(user.id);
+        const sales = await getCompanyCurrentMonthSales(user.company_id);
+        const deliveries = await getCompanyCurrentMonthDeliveredOrders(
+          user.company_id
+        );
+        const stock_quantity = await getCompanyStockQuantity(user.company_id);
         const shipping_value = await getCompanyCurrentMonthShippingValue(
-          user.id
+          user.company_id
         );
         setCurrentMonthSales(sales[0]);
         setCurrentMonthDeliveries(deliveries[0]);
+        setStockQuantity(stock_quantity[0]);
         setCurrentMonthShippingValue(shipping_value[0]);
-        setIsLoading(false);
+
+        setIsLoadingMonthSales(false);
+        setIsLoadingMonthDeliveries(false);
+        setIsLoadingStockQuantity(false);
+        setIsLoadingMonthShippingValue(false);
       }
     };
 
     request();
-  }, [user]);
+  }, [user, orders]);
 
   return (
     <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @6xl/main:grid-cols-4 grid grid-cols-1 gap-4 md:gap-8 *:data-[slot=card]:bg-white *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card">
@@ -70,6 +87,7 @@ export default function SectionCards() {
             ? "up"
             : "down"
         }
+        isLoading={isLoadingMonthSales}
       >
         <Banknote />
       </CardHomeDashboard>
@@ -95,13 +113,15 @@ export default function SectionCards() {
             ? "up"
             : "down"
         }
+        isLoading={isLoadingMonthDeliveries}
       >
         <ShoppingBag />
       </CardHomeDashboard>
       <CardHomeDashboard
-        title="137"
+        title={stockQuantity?.total_stock_quantity}
         description="Produtos no inventário"
         isPercentage="none"
+        isLoading={isLoadingStockQuantity}
       >
         <Package />
       </CardHomeDashboard>
@@ -109,6 +129,7 @@ export default function SectionCards() {
         title={`${currentMonthShippingValue?.total_shipping_value}€`}
         description="Soma do frete mensal"
         isPercentage="none"
+        isLoading={isLoadingMonthShippingValue}
       >
         <Truck />
       </CardHomeDashboard>

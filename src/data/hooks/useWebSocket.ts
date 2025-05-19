@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 type WebSocketMessage = {
   type: string;
@@ -8,11 +9,15 @@ type WebSocketMessage = {
 export const useWebSocket = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
+  const { token } = useAuth();
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-      // Cria a conexão WebSocket
-      wsRef.current = new WebSocket(import.meta.env.VITE_WS_URL);
+    // Cria a conexão WebSocket
+    if (token) {
+      wsRef.current = new WebSocket(
+        `${import.meta.env.VITE_WS_URL}?token=${token}`
+      );
 
       // Configura os event listeners
       wsRef.current.onopen = () => {
@@ -40,8 +45,8 @@ export const useWebSocket = () => {
           wsRef.current.close();
         }
       };
-    
-  }, []);
+    }
+  }, [token]);
 
   // Função para enviar mensagens
   const sendMessage = (message: WebSocketMessage) => {

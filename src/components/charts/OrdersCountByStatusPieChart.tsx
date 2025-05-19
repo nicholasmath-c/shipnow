@@ -32,39 +32,14 @@ import {
 import { useAuth } from "@/data/contexts/AuthContext";
 import { getCompanyOrderCountByStatus } from "@/data/services/companyService";
 import { SPLoaderInCard } from "../SpinnerLoader";
+import { useOrders } from "@/data/contexts/OrdersContext";
+import { status } from "@/data/hooks/helpers";
 
 const chartConfig = {
   orders: {
     label: "Pedidos",
   },
-  pending: {
-    label: "Pendente",
-    color: "#F9C74F",
-  },
-  processing: {
-    label: "Processando",
-    color: "#6399ff",
-  },
-  ready_to_ship: {
-    label: "Pronto para envio",
-    color: "#e78923",
-  },
-  pickup_in_transit: {
-    label: "Em transito - Recolhimento",
-    color: "#5f5cc0",
-  },
-  delivery_in_transit: {
-    label: "Em transito - Entrega",
-    color: "#271e5f",
-  },
-  delivered: {
-    label: "Entregue",
-    color: "#58d183",
-  },
-  canceled: {
-    label: "Cancelado",
-    color: "#fd605b",
-  },
+  ...status,
 } satisfies ChartConfig;
 
 type OrderStatusData = {
@@ -76,12 +51,13 @@ export function OrdersCountByStatusPieChart() {
   const isMobile = useIsMobile();
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState<OrderStatusData[]>([]);
+  const { orders } = useOrders();
   const { user } = useAuth();
 
   useEffect(() => {
     const request = async () => {
       if (user) {
-        const data = await getCompanyOrderCountByStatus(user.id);
+        const data = await getCompanyOrderCountByStatus(user.company_id);
         const formattedData = data.map((item: OrderStatusData) => {
           const config = chartConfig[item.status as keyof typeof chartConfig];
           return {
@@ -96,7 +72,7 @@ export function OrdersCountByStatusPieChart() {
     };
 
     request();
-  }, [user]);
+  }, [user, orders]);
 
   const id = "pie-interactive";
   const [activeStatus, setActiveStatus] = useState<string | undefined>();
@@ -152,9 +128,7 @@ export function OrdersCountByStatusPieChart() {
               })}
             </SelectContent>
           </Select>
-        ) : (
-          null
-        )}
+        ) : null}
       </CardHeader>
       <CardContent className="flex flex-1 justify-center pb-0">
         <ChartContainer

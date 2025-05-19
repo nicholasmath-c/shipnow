@@ -1,17 +1,9 @@
 import LoginForm from "../components/form/LoginForm";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { useEffect } from "react";
-import { useLoading } from "@/data/contexts/LoadingContext";
 import logo from "../assets/img/logo-shipnow-dark.png";
 import bgLogin from "../assets/img/bg-login-2.png";
 
 export default function Login() {
-  const { setIsLoading } = useLoading();
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
   return (
     <ProtectedRoute>
       <div className="grid min-h-svh lg:grid-cols-2">

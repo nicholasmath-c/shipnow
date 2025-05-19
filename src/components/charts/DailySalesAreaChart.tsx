@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { getCompanyDailySales } from "@/data/services/companyService.ts";
 import { useAuth } from "@/data/contexts/AuthContext.tsx";
 import { SPLoaderInCard } from "../SpinnerLoader.tsx";
+import { useOrders } from "@/data/contexts/OrdersContext.tsx";
 
 const chartConfig = {
   total_value: {
@@ -40,6 +41,7 @@ export function DailySalesAreaChart() {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = useState("30d");
   const [chartData, setChartData] = useState([]);
+  const { orders } = useOrders();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,7 +60,7 @@ export function DailySalesAreaChart() {
     };
 
     response();
-  }, [setChartData, user]);
+  }, [setChartData, user, orders]);
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date);
