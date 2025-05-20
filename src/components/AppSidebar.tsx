@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-import { Ticket, Home, User, Inbox, Plus, Box } from "lucide-react";
+import { Ticket, Home, User, Inbox, Plus, Box, LayoutDashboard } from "lucide-react";
 
 import logo from "../assets/img/logo-shipnow.png";
 
@@ -30,9 +30,9 @@ import { useAuth } from "@/data/contexts/AuthContext";
 // Menu items.
 const principal = [
   {
-    title: "Página Inicial",
+    title: "Dashboard",
     url: "/",
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
     title: "Inventário",

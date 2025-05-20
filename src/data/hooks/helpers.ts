@@ -5,37 +5,37 @@ export const status = {
   pending: {
     label: "Pendente",
     color: "#F9C74F",
-    cssVariable: "status-pending",
+    cssVariable: "--status-pending",
   },
   processing: {
     label: "Processando",
     color: "#6399ff",
-    cssVariable: "status-processing",
+    cssVariable: "--status-processing",
   },
   ready_to_ship: {
     label: "Pronto para envio",
     color: "#e78923",
-    cssVariable: "status-ready_to_ship",
+    cssVariable: "--status-ready_to_ship",
   },
   pickup_in_transit: {
     label: "Em transito - Recolhimento",
     color: "#5f5cc0",
-    cssVariable: "status-pickup_in_transit",
+    cssVariable: "--status-pickup_in_transit",
   },
   delivery_in_transit: {
     label: "Em transito - Entrega",
     color: "#271e5f",
-    cssVariable: "status-delivery_in_transit",
+    cssVariable: "--status-delivery_in_transit",
   },
   delivered: {
     label: "Entregue",
     color: "#58d183",
-    cssVariable: "status-delivered",
+    cssVariable: "--status-delivered",
   },
   canceled: {
     label: "Cancelado",
     color: "#fd605b",
-    cssVariable: "status-canceled",
+    cssVariable: "--status-canceled",
   },
 };
 

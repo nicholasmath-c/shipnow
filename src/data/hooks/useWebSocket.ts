@@ -38,13 +38,6 @@ export const useWebSocket = () => {
           console.error("Error parsing WebSocket message:", error);
         }
       };
-
-      // Função de limpeza
-      return () => {
-        if (wsRef.current) {
-          wsRef.current.close();
-        }
-      };
     }
   }, [token]);
 

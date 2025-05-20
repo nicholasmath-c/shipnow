@@ -9,9 +9,13 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Table,
   TableBody,
@@ -34,20 +38,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Combobox } from "@/components/ui/combobox";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { getColumns } from "./columns"; // ajuste o caminho
+import OrderDetailsInTable from "./OrderDetailsInTable";
+import { DataTableDateFilter } from "@/components/ui/data-table-date-filter";
+import { OrderFilters } from "./OrderFilters";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
   data: TData[] | undefined | null;
 }
 
 export function DataTable<TData, TValue>({
-  columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [orderTypeFilter, setOrderTypeFilter] = useState("");
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+
+  const columns = useMemo(
+    () => getColumns({ setExpandedRowId }),
+    [setExpandedRowId]
+  );
 
   const table = useReactTable({
     data,
@@ -67,15 +79,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col gap-4">
-      <Combobox
-        title="Tipo de pedido"
-        options={[
-          { value: "delivery", label: "Entrega" },
-          { value: "pickup", label: "Recolhimento" },
-        ]}
-        value={orderTypeFilter}
-        onValueChange={setOrderTypeFilter}
-      />
+      <OrderFilters table={table}></OrderFilters>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -98,28 +102,48 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const isExpanded = row.original.id === expandedRowId;
+
+                return (
+                  <Fragment key={row.original.id}>
+                    <TableRow
+                      data-state={row.getIsSelected() && "selected"}
+                      className="cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation(); // evita conflito com onClick na row
+                        setExpandedRowId((prev) =>
+                          prev === row.original.id ? null : row.original.id
+                        );
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+
+                    {isExpanded && (
+                      <TableRow className="bg-muted">
+                        <TableCell colSpan={columns.length}>
+                          <OrderDetailsInTable order={row.original} />
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}

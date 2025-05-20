@@ -46,7 +46,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full md:max-w-xs justify-between"
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -60,24 +60,37 @@ export function Combobox({
           <CommandList>
             <CommandEmpty>Nenhum(a) {title} encontrado(a).</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value}
-                  onSelect={(currentValue) => {
-                    onValueChange(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
+              {options.map((option) => {
+                const synonyms: Record<string, string[]> = {
+                  delivery: ["entrega"],
+                  pickup: ["rec"],
+                };
+
+                const searchTerms = [
+                  option.label,
+                  option.value,
+                  ...(synonyms[option.value] || []),
+                ];
+
+                return (
+                  <CommandItem
+                    key={option.value}
+                    value={searchTerms.join(" ").toLowerCase()} // inclui sinônimos
+                    onSelect={() => {
+                      onValueChange(option.value);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === option.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                );
+              })}
             </CommandGroup>
           </CommandList>
         </Command>

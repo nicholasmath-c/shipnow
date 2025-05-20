@@ -25,7 +25,7 @@ export default function Home() {
   const { lastMessage } = useWebSocket();
 
   useEffect(() => {
-    setTitle("Página Inicial");
+    setTitle("Dashboard");
   }, []);
 
   return (

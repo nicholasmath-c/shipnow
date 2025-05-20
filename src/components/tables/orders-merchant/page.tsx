@@ -1,6 +1,5 @@
 "use client"; // se necessário
 
-import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { useOrders } from "@/data/contexts/OrdersContext";
 
@@ -9,7 +8,7 @@ export default function OrdersMerchantHomeDataTable() {
 
   return (
     <div className="container mx-auto">
-      <DataTable columns={columns} data={orders} />
+      <DataTable data={orders} />
     </div>
   );
 }
